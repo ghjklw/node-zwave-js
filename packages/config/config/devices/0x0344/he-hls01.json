@@ -19,6 +19,24 @@
 			"$import": "templates/heltun_template.json#frequency_region"
 		},
 		{
+			"#": "2",
+			"label": "Operating Mode",
+			"valueSize": 1,
+			"minValue": 1,
+			"maxValue": 2,
+			"readOnly": true,
+			"options": [
+				{
+					"label": "Binary Switch",
+					"value": 1
+				},
+				{
+					"label": "Thermostat",
+					"value": 2
+				}
+			]
+		},
+		{
 			"#": "3",
 			"$import": "templates/heltun_template.json#hw_sw_ver"
 		},
@@ -32,19 +50,56 @@
 			"label": "Relay Output Mode"
 		},
 		{
+			"#": "8",
+			"label": "External Input Mode",
+			"valueSize": 1,
+			"minValue": 0,
+			"maxValue": 3,
+			"defaultValue": 0,
+			"allowManualEntry": false,
+			"options": [
+				{
+					"label": "Disable",
+					"value": 0
+				},
+				{
+					"label": "Toggle switch (parameter 09)",
+					"value": 1
+				},
+				{
+					"label": "Toggle switch reverse (parameter 09)",
+					"value": 2
+				},
+				{
+					"label": "Push button (parameter 09)",
+					"value": 3
+				}
+			]
+		},
+		{
+			"#": "9",
+			"label": "External Input Action",
+			"$import": "templates/heltun_template.json#thermostat_mode"
+		},
+		{
 			"#": "10",
-			"label": "Floor Temperature Sensor Resistance",
+			"label": "Temperature Sensor Resistance",
 			"unit": "kΩ",
 			"$import": "~/templates/master_template.json#base_1-100_nounit",
 			"defaultValue": 10
 		},
 		{
-			"#": "16",
-			"$import": "~/templates/master_template.json#temperature_scale"
-		},
-		{
 			"#": "17",
 			"$import": "templates/heltun_template.json#temp_sensor_calibration"
+		},
+		{
+			"#": "18",
+			"label": "Temperature Hysteresis",
+			"unit": "0.1 °C",
+			"valueSize": 1,
+			"minValue": 2,
+			"maxValue": 100,
+			"defaultValue": 5
 		},
 		{
 			"#": "19",
@@ -59,78 +114,236 @@
 			"$import": "templates/heltun_template.json#time_override"
 		},
 		{
-			"#": "23",
-			"label": "Auto On/Off",
-			"$import": "~/templates/master_template.json#base_enable_disable"
-		},
-		{
-			"#": "24",
-			"label": "Auto Off Timeout",
-			"unit": "minutes",
-			"valueSize": 1,
-			"minValue": 0,
-			"maxValue": 120,
-			"defaultValue": 5
-		},
-		{
 			"#": "25",
-			"label": "Auto On Reconnect Timeout",
-			"description": "When the load is reconnected the relay output will be switched on after this time.",
-			"unit": "minutes",
-			"valueSize": 1,
-			"minValue": 0,
-			"maxValue": 120,
-			"defaultValue": 0
-		},
-		{
-			"#": "26",
-			"label": "High Load Timeout Protection: Power Threshold",
-			"unit": "W",
-			"valueSize": 2,
-			"minValue": 100,
-			"maxValue": 3500,
-			"defaultValue": 0
-		},
-		{
-			"#": "27",
-			"label": "High Load Timeout Protection: Time Threshold",
+			"label": "Dry Mode Timeout",
 			"unit": "minutes",
 			"valueSize": 2,
 			"minValue": 1,
-			"maxValue": 1440,
-			"defaultValue": 0
+			"maxValue": 720,
+			"defaultValue": 30
+		},
+		{
+			"#": "26",
+			"label": "Dry Mode Switch",
+			"valueSize": 1,
+			"minValue": 1,
+			"maxValue": 6,
+			"defaultValue": 1,
+			"allowManualEntry": false,
+			"options": [
+				{
+					"label": "Heat Mode",
+					"value": 1
+				},
+				{
+					"label": "Auto Mode",
+					"value": 2
+				},
+				{
+					"label": "Energy Mode",
+					"value": 4
+				},
+				{
+					"label": "Away Mode",
+					"value": 5
+				},
+				{
+					"label": "Off",
+					"value": 6
+				}
+			]
 		},
 		{
 			"#": "41",
-			"$import": "templates/heltun_template.json#external_input_hold_control_mode",
-			"label": "External Input: Hold Control Mode"
+			"$import": "templates/heltun_template.json#time_override",
+			"label": "Morning start time",
+			"defaultValue": 600
+		},
+		{
+			"#": "42",
+			"$import": "templates/heltun_template.json#time_override",
+			"label": "Day start time",
+			"defaultValue": 900
+		},
+		{
+			"#": "43",
+			"$import": "templates/heltun_template.json#time_override",
+			"label": "Evening start time",
+			"defaultValue": 1800
+		},
+		{
+			"#": "44",
+			"$import": "templates/heltun_template.json#time_override",
+			"label": "Night start time",
+			"defaultValue": 2300
+		},
+		{
+			"#": "45",
+			"label": "Monday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
 		},
 		{
 			"#": "46",
-			"$if": "firmwareVersion >= 1.3",
-			"label": "External Input: Hold Mode Duration",
-			"$import": "templates/heltun_template.json#hold_duration"
+			"label": "Monday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
+		},
+		{
+			"#": "47",
+			"label": "Monday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "48",
+			"label": "Monday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
+		},
+		{
+			"#": "49",
+			"label": "Tuesday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
+		},
+		{
+			"#": "50",
+			"label": "Tuesday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
 		},
 		{
 			"#": "51",
-			"$import": "templates/heltun_template.json#external_input_click_control_mode",
-			"label": "External Input: Click Control Mode"
+			"label": "Tuesday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "52",
+			"label": "Tuesday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
+		},
+		{
+			"#": "53",
+			"label": "Wednesday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
+		},
+		{
+			"#": "54",
+			"label": "Wednesday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
+		},
+		{
+			"#": "55",
+			"label": "Wednesday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "56",
+			"label": "Wednesday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
+		},
+		{
+			"#": "57",
+			"label": "Thursday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
+		},
+		{
+			"#": "58",
+			"label": "Thursday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
+		},
+		{
+			"#": "59",
+			"label": "Thursday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "60",
+			"label": "Thursday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
+		},
+		{
+			"#": "61",
+			"label": "Friday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
+		},
+		{
+			"#": "62",
+			"label": "Friday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
+		},
+		{
+			"#": "63",
+			"label": "Friday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "64",
+			"label": "Friday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
+		},
+		{
+			"#": "65",
+			"label": "Saturday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
 		},
 		{
 			"#": "66",
-			"$if": "firmwareVersion >= 1.5",
-			"$import": "~/templates/master_template.json#state_after_power_failure_off_prev",
-			"defaultValue": 0
+			"label": "Saturday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
+		},
+		{
+			"#": "67",
+			"label": "Saturday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "68",
+			"label": "Saturday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
+		},
+		{
+			"#": "69",
+			"label": "Sunday Morning temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 240
+		},
+		{
+			"#": "70",
+			"label": "Sunday Day temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 200
 		},
 		{
 			"#": "71",
-			"label": "Relay Timer Mode Duration",
-			"unit": "seconds",
-			"unsigned": true,
-			"valueSize": 2,
-			"minValue": 0,
-			"maxValue": 43200,
-			"defaultValue": 0
+			"label": "Sunday Evening temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 230
+		},
+		{
+			"#": "72",
+			"label": "Sunday Night temperature",
+			"$import": "templates/heltun_template.json#temp_setpoint",
+			"defaultValue": 180
 		},
 		{
 			"#": "141",
@@ -247,15 +460,13 @@
 		},
 		{
 			"#": "159",
-			"$if": "firmwareVersion >= 1.2",
-			"label": "Load On Notification",
+			"label": "Load Error Notification",
 			"$import": "~/templates/master_template.json#base_enable_disable"
 		},
 		{
-			"#": "160",
-			"$if": "firmwareVersion >= 1.2",
-			"label": "Load Off Notification",
-			"$import": "~/templates/master_template.json#base_enable_disable"
+			"#": "171",
+			"label": "Basic Set Action",
+			"$import": "templates/heltun_template.json#thermostat_mode"
 		}
 	]
 }

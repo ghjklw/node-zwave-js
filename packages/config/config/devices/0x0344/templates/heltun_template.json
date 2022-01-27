@@ -342,6 +342,36 @@
 		"maxValue": 5000,
 		"defaultValue": 500
 	},
+	"thermostat_mode": {
+		"label": "Thermostat mode",
+		"valueSize": 1,
+		"minValue": 1,
+		"maxValue": 5,
+		"defaultValue": 1,
+		"allowManualEntry": false,
+		"options": [
+			{
+				"label": "Heat Mode",
+				"value": 1
+			},
+			{
+				"label": "Auto Mode",
+				"value": 2
+			},
+			{
+				"label": "Dry Mode",
+				"value": 3
+			},
+			{
+				"label": "Energy Mode",
+				"value": 4
+			},
+			{
+				"label": "Away Mode",
+				"value": 5
+			}
+		]
+	},
 	"temp_sensor_calibration": {
 		"label": "Temperature Sensor Calibration",
 		"unit": "0.1 °C",
@@ -349,6 +379,13 @@
 		"minValue": -100,
 		"maxValue": 100,
 		"defaultValue": 0
+	},
+	"temp_setpoint": {
+		"label": "Temperature Setpoint",
+		"unit": "0.1 °C",
+		"valueSize": 2,
+		"minValue": 10,
+		"maxValue": 1100,
 	},
 	"weekday_override": {
 		"label": "Week Day Override",
